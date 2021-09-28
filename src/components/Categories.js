@@ -1,4 +1,3 @@
-
 /* eslint-disable array-callback-return */
    
 import React from "react";
@@ -15,7 +14,7 @@ const Categories = (props) => {
           {  props.categories.map(item=>{
              return(
                  <Link color="inherit" onClick={()=>props.selectCate(item.normalizedName)}>
-              {item.normalizedName}
+              {item.normalizedName.toUpperCase()}
             </Link>
              ) 
           })}

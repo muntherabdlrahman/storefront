@@ -19,6 +19,7 @@ activeCategory: "",
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
+// eslint-disable-next-line import/no-anonymous-default-export
 const ReduceCategory = (state = initialState, action) => {
   let { type, payload } = action;
   console.log(action);
@@ -52,3 +53,5 @@ export const selectCate = (name) => {
 
 
 export default ReduceCategory;
+
+
