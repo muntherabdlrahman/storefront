@@ -43,19 +43,22 @@ let initialState ={
 
     
 }
-
 const ReduceProducts = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case "ACTIVE":
      state.activeProduct=state.products.filter(item=>{
-       return (payload===item.category ? item.category:null)
+       return (payload.toLowerCase()===item.category ? item.category:null)
      })
      console.log(state.activeProduct);
       return state;
 
 
+      case "GET":
+
+        state.products=payload
+        return state
     case "ADDPRODUCT":
       state.activeProduct = state.activeProduct.map((product) => {
         if (product.name === payload.name) {
@@ -85,3 +88,4 @@ const ReduceProducts = (state = initialState, action) => {
 };
 
 export default ReduceProducts;
+
