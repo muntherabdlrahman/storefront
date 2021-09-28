@@ -1,23 +1,31 @@
-import {reset,selectCate} from '../store/data'
-import {connect} from 'react-redux';
-const Categories = props => {
-    return (
-        <section>
-            <ul>
-            {props.categories.map((categorie, idx) =>
-                <li key={idx} onClick={()=>props.selectCate(categorie.normalizedName)}>{categorie.normalizedName}  </li>
-            )}
-            </ul>
-        </section>
-    )
-}
+/* eslint-disable array-callback-return */
+   
+import React from "react";
+import { Breadcrumbs, Link } from "@mui/material";
 
-const mapStateToProps = (state) => {
-    console.log('STATE???', state);
-    console.log('STATE???', state.ReduceCategory);
-    return  state.ReduceCategory;
-  };
+import { connect } from "react-redux";
+import { selectCate, reset } from "../store/categories";
 
-const mapDispatchToProps = {selectCate, reset};
+const Categories = (props) => {
+  console.log('props-->',props);
+  return (
+    <section>
+      <Breadcrumbs>
+          {  props.categories.map(item=>{
+             return(
+                 <Link color="inherit" onClick={()=>props.selectCate(item.normalizedName)}>
+              {item.normalizedName}
+            </Link>
+             ) 
+          })}
+      </Breadcrumbs>
+    </section>
+  );
+};
+const mapStateToProps = (state) => ({
+  categories:state.ReduceCategory.categories,
+});
+
+const mapDispatchToProps = { selectCate, reset };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);
