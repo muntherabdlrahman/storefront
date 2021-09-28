@@ -35,31 +35,53 @@ let initialState ={
         img: 'https://img.grouponcdn.com/deal/q9SSjhWJ3DJg36ibBW3H/qg-440x267/v1/c870x524.jpg',
       },
 
-    ]
+    ],
+    activeProduct:[]
+
     
 
 
     
 }
 
+const ReduceProducts = (state = initialState, action) => {
+  const { type, payload } = action;
 
- const ReduceProducts=(state = initialState, action) => {
-    const {type,payload}=action;
-  
-    switch (type) {
-        case "ACTIVE":
+  switch (type) {
+    case "ACTIVE":
+     state.activeProduct=state.products.filter(item=>{
+       return (payload===item.category ? item.category:null)
+     })
+     console.log(state.activeProduct);
+      return state;
 
-            let product=state.products.filter(product=>{
-               return   product.category === payload ?product.category  : null
-                
-            })
-            console.log(product);
-            return {...state,product:product};
-            case "RESET":
-            return initialState; 
-        default:
-            return state;
-    }
-}
 
-export default ReduceProducts
+    case "ADDPRODUCT":
+      state.activeProduct = state.activeProduct.map((product) => {
+        if (product.name === payload.name) {
+          if (product.inventoryCount > 0) {
+            product.inventoryCount = product.inventoryCount - 1;
+          }
+          return product;
+        }
+        return product;
+      });
+      return {...state};
+
+    case "DELETE":
+      state.activeProduct = state.activeProduct.map((product) => {
+        if (product.name === payload.product.name) {
+          product.inventoryCount = product.inventoryCount + 1;
+
+          return product;
+        }
+        return product;
+      });
+      return {...state};
+
+    default:
+      return state;
+  }
+};
+
+export default ReduceProducts;

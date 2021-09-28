@@ -2,7 +2,6 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-unused-vars */
 
-
 let initialState = {
     categories:[
         {
@@ -15,60 +14,41 @@ let initialState = {
     displayName: 'Samsung', 
     description: 'One of the worlds largest producers of electronic devices' 
 }
-]
-}
-
-
-
-
+],
+activeCategory: "",
+};
 
 // eslint-disable-next-line import/no-anonymous-default-export
- const ReduceCategory=(state = initialState, action) => {
-  let {type, payload} = action;
+const ReduceCategory = (state = initialState, action) => {
+  let { type, payload } = action;
   console.log(action);
-  switch(type) {
-      case 'ACTIVE':
-          let activeCategory=payload
-          let categories = state.categories.map(item => {
-              if (item.normalizedName === payload) {
-                  return {
-                      normalizedName : item.normalizedName, 
-                      displayName: item.displayName ,
-                      description:item.description}
-              }
-              return item;
-          })
-          return { activeCategory,categories};
-      case 'RESET':
-          return initialState;
-      default:
-          return state;
+  switch (type) {
+    case "ACTIVE":
+        let active=state.categories.filter(item=>{
+            return payload===item.normalizedName? item.normalizedName:""
+        })
+        
+      let activeCategory = {
+        normalizedName:active[0].normalizedName,
+        displayName:active[0].displayName,
+        description:active[0].description
+      };
+      
+      let categories = state.categories;
+
+      return { activeCategory, categories };
+    default:
+      return state;
   }
-}
-
-
-
-
-
-
-
-
-
-
-
+};
 
 //actions
 export const selectCate = (name) => {
-    return {
-        type: 'ACTIVE',
-        payload: name
-    }
-}
+  return {
+    type: "ACTIVE",
+    payload: name,
+  };
+};
 
-export const reset = () => {
-    return {
-        type: 'RESET'
-    }
-}
 
-export default ReduceCategory
+export default ReduceCategory;
